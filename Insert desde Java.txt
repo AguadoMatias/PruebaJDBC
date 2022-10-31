@@ -1,0 +1,35 @@
+public static void almacenarPieza(String DescripcionPieza,int idTipoPieza, int idMaterial ,int idColor, int IdTamanio)
+	{
+		//Objeto para ejecutar el alta/actualizacion en la base de datos
+    	AccesoDatos accesoBD = null;
+    	Connection con = null;
+    	PreparedStatement sentencia = null;			
+
+		try{
+			
+			// Instancio un objeto de acceso a datos
+        	accesoBD = new AccesoDatos();
+            //Obtener la conexion para poder generar la sentencia de consulta
+            con = accesoBD.getConexion();
+		
+			String insertScript = "insert into pieza"
+					+ "(Descripcion, idTipoPieza, idMaterial, idColor, idTamanio )"
+					+ " VALUES(?,?,?,?,?)";
+			
+			sentencia = con.prepareStatement(insertScript);
+	
+			sentencia.setString(1, DescripcionPieza);
+			sentencia.setInt(2, idTipoPieza);
+			sentencia.setInt(3, idMaterial);
+			sentencia.setInt(4, idColor);
+			sentencia.setInt(5, IdTamanio);
+	
+			// execute insert SQL statement
+			sentencia.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			System.err.println("Error al insertar la pieza.");
+		}
+		
+	}
